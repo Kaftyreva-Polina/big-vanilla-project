@@ -7,9 +7,9 @@ export type AddressType = {
     street: StreetType
 }
 
-export  type HoseType = {
+export  type HouseType = {
     buildedAt: number
-    repaired: false
+    repaired: boolean
     address: AddressType
 }
 
@@ -21,7 +21,7 @@ export type GovernmentBuildingsType = {
 }
 export type CityType = {
     title: string
-    houses: Array<HoseType>
+    houses: Array<HouseType>
     governmentBuildings: Array<GovernmentBuildingsType>
     citizensNumber: number
 }
