@@ -1,4 +1,4 @@
-type CityType = {
+export type CityType = {
     title: string
     countryTitle: string
 }
