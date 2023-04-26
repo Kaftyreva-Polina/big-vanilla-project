@@ -22,6 +22,10 @@ export type WithCompaniesType = {
     companies: Array<{ id: number, title: string }>
 }
 
+export type CompanyPropsType = {
+    [key: string]: Array<{ id: number, title: string }>
+}
+
 export function makeHairStyle(u: UserType, power: number) {
     return {...u, hair: u.hair / power}
     // copy.hair = u.hair / power
@@ -54,4 +58,34 @@ export const removeBook = (u: UserWithLaptop & UserWithBooksType, bookForDelete:
 
 export const updateSkills = (skills: Array<number>, oldSkill: number, newSkill: number) => {
     return skills.map(s => s === oldSkill ? newSkill : s)
+}
+
+export const addNewCompany = (u: WithCompaniesType, title: string) => {
+    return {
+        ...u,
+        companies: [...u.companies, {id: u.companies.length + 1, title: title}]
+    }
+}
+
+export const updateCompanyTitle = (u: WithCompaniesType, companyId: number, title: string) => {
+    return {
+        ...u,
+        companies: u.companies.map(c => c.id === companyId ? {...c, title: title} : c)
+    }
+}
+
+export const updateCompanyTitle2 = (companies: CompanyPropsType,
+                                    userName: string,
+                                    companyId: number,
+                                    newTitle: string) => {
+
+    return {
+        ...companies,
+        [userName]: companies[userName].map(c => c.id === companyId ? {...c, title: newTitle} : c)
+    }
+
+    // let companyCopy = {...companies}
+    // companyCopy[userName] = companyCopy[userName].map(c => c.id === companyId ? {...c, title: newTitle} : c)
+    // return companyCopy;
+
 }

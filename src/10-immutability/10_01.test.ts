@@ -1,13 +1,14 @@
 import {
-    addNewBooksToUser,
+    addNewBooksToUser, addNewCompany, CompanyPropsType,
     makeHairStyle,
     moveUser,
-    moveUserToOtherHouse, removeBook, updateBook, updateSkills,
+    moveUserToOtherHouse, removeBook, updateBook, updateCompanyTitle, updateCompanyTitle2, updateSkills,
     upgradeUserLaptop,
     UserType,
     UserWithBooksType,
-    UserWithLaptop
+    UserWithLaptop, WithCompaniesType
 } from "./10_01";
+
 
 
 test("reference type test", () => {
@@ -173,3 +174,66 @@ test("update skills", () => {
     expect(newSkills[1]).toBe(99)
 })
 
+test("add new company", () => {
+    let user: UserWithLaptop & WithCompaniesType = {
+        name: "Dima",
+        hair: 32,
+        address: {
+            city: "Minsk",
+            house: 12
+        },
+        laptop: {
+            title: "ZenBook"
+        },
+        companies: [{id: 1, title: "Epam"}, {id: 1, title: "IT-Incubator"}]
+    }
+
+    const userCopy = addNewCompany(user, "Google") as UserWithLaptop & WithCompaniesType
+
+    expect(user).not.toBe(userCopy)
+    expect(user.laptop).toBe(userCopy.laptop)
+    expect(user.address).toBe(userCopy.address)
+    expect(user.companies).not.toBe(userCopy.companies)
+    expect(userCopy.companies[2]).toStrictEqual({id: 3, title: "Google"})
+})
+
+test("change company title", () => {
+    let user: UserWithLaptop & WithCompaniesType = {
+        name: "Dima",
+        hair: 32,
+        address: {
+            city: "Minsk",
+            house: 12
+        },
+        laptop: {
+            title: "ZenBook"
+        },
+        companies: [{id: 1, title: "Epam"}, {id: 1, title: "IT-Incubator"}]
+    }
+
+    const userCopy = updateCompanyTitle(user, 1, "EPAM") as UserWithLaptop & WithCompaniesType
+
+    expect(user).not.toBe(userCopy)
+    expect(user.laptop).toBe(userCopy.laptop)
+    expect(user.address).toBe(userCopy.address)
+    expect(user.companies).not.toBe(userCopy.companies)
+    expect(userCopy.companies[0]).toStrictEqual({id: 1, title: "EPAM"})
+    expect(userCopy.companies[0].title).toBe("EPAM")
+})
+
+test("update company", () => {
+    let companies: CompanyPropsType = {
+        "Dima": [{id: 1, title: "Epam"}, {id: 2, title: "IT-Incubator"}],
+        "Artem": [{id: 1, title: "IT-Incubator"}]
+    }
+
+    const updateCompany = updateCompanyTitle2(companies, "Dima", 1, "EPAM")
+
+    expect(updateCompany["Dima"]).not.toBe(companies["Dima"])
+    expect(updateCompany["Artem"]).toBe(companies["Artem"])
+    expect(updateCompany["Dima"][0].title).toBe("EPAM")
+    expect(updateCompany["Dima"][0]).toStrictEqual({id: 1, title: "EPAM"})
+})
+
+
+//Мапится масив, после копии компаний мы получили копию каждого ключа значения и массивы в которых лежат старые объекты
