@@ -1,5 +1,5 @@
 const promise1 = fetch("https://google.com/?query=js")
-const promise2 = fetch("https://bing1.com/?query=js")
+const promise2 = fetch("https://bing.com/?query=js")
 
 //pending
 //fulfilled
@@ -43,9 +43,10 @@ otherPromise
 otherPromise2
     .then((results) => {
         const res1 = results[0].status === "fulfilled"
-            ? console.log(results[0].value)
-            : console.log(results[0].reason)
+            ? results[0].value
+            : results[0].reason
         const res2 = results[1].status === "fulfilled"
-            ? console.log(results[1].value)
-            : console.log(results[1].reason)
+            ? results[1].value
+            : results[1].reason
+        console.log(res1 + " " + res2)
     })
